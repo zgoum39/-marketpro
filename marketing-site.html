@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FORMA — Crafted for Life</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f7f4ef;
+      --sand: #e8e0d4;
+      --stone: #b5a898;
+      --charcoal: #2a2722;
+      --ink: #1a1714;
+      --accent: #c8a882;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 4rem;
+      background: rgba(247, 244, 239, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-color: var(--sand); }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; }
+
+    .nav-cta {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background: none;
+      border: 1px solid var(--charcoal);
+      padding: 0.55rem 1.4rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      text-decoration: none;
+    }
+    .nav-cta:hover { background: var(--charcoal); color: var(--cream); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 80px;
+    }
+
+    .hero-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 4rem 6rem 4rem;
+      animation: fadeUp 1s ease both;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 6vw, 6rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--ink);
+      margin-bottom: 1.8rem;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--charcoal);
+      opacity: 0.75;
+      max-width: 38ch;
+      margin-bottom: 2.8rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--cream);
+      border: none;
+      padding: 1rem 2.4rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--charcoal); }
+
+    .btn-ghost {
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      color: var(--charcoal);
+      opacity: 0.65;
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 2px;
+      transition: opacity 0.2s;
+    }
+    .btn-ghost:hover { opacity: 1; }
+
+    .hero-visual {
+      position: relative;
+      background: var(--sand);
+      overflow: hidden;
+      animation: fadeIn 1.2s ease both;
+    }
+
+    .hero-visual-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Minimal product placeholder — elegant geometric composition */
+    .product-stage {
+      width: 320px;
+      height: 420px;
+      position: relative;
+    }
+
+    .product-shape {
+      position: absolute;
+      border-radius: 2px;
+      transition: transform 0.6s ease;
+    }
+
+    .shape-base {
+      width: 200px; height: 280px;
+      background: linear-gradient(145deg, #d4c9b8, #bfb3a2);
+      top: 70px; left: 60px;
+      box-shadow: 20px 30px 60px rgba(42,39,34,0.18);
+    }
+    .shape-accent {
+      width: 80px; height: 80px;
+      background: var(--accent);
+      top: 40px; right: 40px;
+      opacity: 0.6;
+    }
+    .shape-line {
+      width: 120px; height: 1px;
+      background: var(--charcoal);
+      opacity: 0.25;
+      bottom: 80px; left: 30px;
+    }
+    .shape-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--charcoal);
+      opacity: 0.35;
+      bottom: 110px; left: 25px;
+    }
+    .label-tag {
+      position: absolute;
+      bottom: 55px; right: 30px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      color: var(--charcoal);
+      opacity: 0.5;
+    }
+
+    .hero-visual:hover .shape-base { transform: translateY(-6px); }
+
+    .hero-badge {
+      position: absolute;
+      bottom: 2.5rem; left: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--charcoal);
+      opacity: 0.6;
+    }
+    .badge-line { width: 28px; height: 1px; background: currentColor; }
+
+    /* MARQUEE */
+    .marquee-wrap {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 1rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .marquee-track {
+      display: inline-flex;
+      gap: 3rem;
+      animation: marquee 20s linear infinite;
+    }
+    .marquee-item {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+    }
+    .marquee-item::after {
+      content: '·';
+      opacity: 0.4;
+    }
+
+    /* ABOUT */
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 70vh;
+    }
+
+    .about-visual {
+      background: var(--charcoal);
+      position: relative;
+      overflow: hidden;
+      min-height: 500px;
+    }
+
+    .about-grid {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 2px;
+      padding: 3rem;
+    }
+
+    .about-grid-cell {
+      background: rgba(247, 244, 239, 0.04);
+      border: 1px solid rgba(247, 244, 239, 0.08);
+      display: flex;
+      align-items: flex-end;
+      padding: 1.2rem;
+    }
+
+    .about-grid-cell span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      color: var(--cream);
+      opacity: 0.15;
+      font-weight: 300;
+    }
+
+    .about-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 4rem;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+    .section-title em { font-style: italic; color: var(--accent); }
+
+    .section-body {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--charcoal);
+      opacity: 0.7;
+      max-width: 42ch;
+      margin-bottom: 2.5rem;
+    }
+
+    .stat-row {
+      display: flex;
+      gap: 3rem;
+      border-top: 1px solid var(--sand);
+      padding-top: 2rem;
+    }
+
+    .stat { }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 300;
+      color: var(--ink);
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+
+    /* PRODUCTS */
+    .products {
+      padding: 7rem 4rem;
+    }
+
+    .products-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 4rem;
+    }
+
+    .products-header .section-title { margin-bottom: 0; }
+
+    .view-all {
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      text-decoration: none;
+      border-bottom: 1px solid var(--stone);
+      padding-bottom: 2px;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+    .view-all:hover { opacity: 1; }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .product-card {
+      background: var(--sand);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .product-card:hover .product-img-wrap { transform: scale(1.03); }
+    .product-card:hover .card-cta { opacity: 1; transform: translateY(0); }
+
+    .product-img-wrap {
+      aspect-ratio: 3/4;
+      transition: transform 0.6s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .product-placeholder {
+      width: 55%;
+      height: 65%;
+      background: linear-gradient(160deg, #cec4b5, #b5a898);
+      border-radius: 1px;
+      box-shadow: 8px 16px 40px rgba(42,39,34,0.12);
+      position: relative;
+    }
+    .product-placeholder::after {
+      content: '';
+      position: absolute;
+      top: 12px; right: -12px;
+      width: 40px; height: 40px;
+      background: var(--accent);
+      opacity: 0.5;
+      border-radius: 50%;
+    }
+
+    .product-info {
+      padding: 1.5rem 1.8rem 2rem;
+    }
+    .product-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.3rem;
+    }
+    .product-sub {
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      color: var(--stone);
+      text-transform: uppercase;
+    }
+    .product-price {
+      margin-top: 0.8rem;
+      font-size: 0.9rem;
+      color: var(--charcoal);
+      opacity: 0.8;
+    }
+
+    .card-cta {
+      position: absolute;
+      bottom: 1.5rem; right: 1.8rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      border-bottom: 1px solid currentColor;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.3s, transform 0.3s;
+      cursor: pointer;
+    }
+
+    /* FEATURES */
+    .features {
+      background: var(--ink);
+      padding: 7rem 4rem;
+      color: var(--cream);
+    }
+
+    .features-header {
+      text-align: center;
+      margin-bottom: 5rem;
+    }
+
+    .features-header .section-label { color: var(--stone); }
+    .features-header .section-title { color: var(--cream); max-width: none; }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(247,244,239,0.08);
+    }
+
+    .feature-item {
+      background: var(--ink);
+      padding: 3rem 2rem;
+      transition: background 0.3s;
+    }
+    .feature-item:hover { background: #231f1b; }
+
+    .feature-icon {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(247,244,239,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--accent);
+    }
+
+    .feature-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--cream);
+      margin-bottom: 0.8rem;
+    }
+
+    .feature-text {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--cream);
+      opacity: 0.45;
+    }
+
+    /* TESTIMONIALS */
+    .testimonials {
+      padding: 7rem 4rem;
+      background: var(--cream);
+    }
+
+    .testimonials-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .testimonial-card {
+      border: 1px solid var(--sand);
+      padding: 2.5rem;
+    }
+
+    .quote-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      line-height: 1;
+      color: var(--accent);
+      opacity: 0.4;
+      margin-bottom: 1rem;
+    }
+
+    .quote-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      line-height: 1.65;
+      color: var(--charcoal);
+      margin-bottom: 1.5rem;
+    }
+
+    .quote-author {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+
+    /* CTA BANNER */
+    .cta-banner {
+      background: var(--sand);
+      padding: 7rem 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 2rem;
+    }
+
+    .cta-banner .section-title {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      max-width: 18ch;
+    }
+
+    .cta-banner p {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--charcoal);
+      opacity: 0.65;
+      max-width: 44ch;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 4rem 4rem 2.5rem;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(247,244,239,0.1);
+    }
+
+    .footer-brand .logo { color: var(--cream); display: block; margin-bottom: 1rem; }
+    .footer-tagline {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      opacity: 0.4;
+      max-width: 28ch;
+    }
+
+    .footer-col-title {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      margin-bottom: 1.2rem;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+    .footer-links a {
+      font-size: 0.85rem;
+      color: var(--cream);
+      opacity: 0.6;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .footer-links a:hover { opacity: 1; }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 2rem;
+      font-size: 0.72rem;
+      opacity: 0.3;
+      letter-spacing: 0.06em;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-visual { min-height: 50vw; }
+      .hero-text { padding: 3rem 1.5rem; }
+      .about { grid-template-columns: 1fr; }
+      .about-visual { min-height: 260px; }
+      .about-content { padding: 3rem 1.5rem; }
+      .products { padding: 4rem 1.5rem; }
+      .product-grid { grid-template-columns: 1fr 1fr; }
+      .features { padding: 4rem 1.5rem; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .testimonials { padding: 4rem 1.5rem; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .cta-banner { padding: 4rem 1.5rem; }
+      footer { padding: 3rem 1.5rem 2rem; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#" class="logo">FORMA</a>
+    <ul class="nav-links">
+      <li><a href="#products">Collection</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#features">Craft</a></li>
+      <li><a href="#testimonials">Stories</a></li>
+    </ul>
+    <a href="#products" class="nav-cta">Shop Now</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <p class="hero-eyebrow">New Collection — Spring 2026</p>
+      <h1 class="hero-title">Designed to<br><em>endure.</em></h1>
+      <p class="hero-desc">Objects that belong in your life. Made with intention, built to last, and refined to feel exactly right in your hands.</p>
+      <div class="hero-actions">
+        <a href="#products" class="btn-primary">Explore Collection</a>
+        <a href="#about" class="btn-ghost">Our story</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-visual-inner">
+        <div class="product-stage">
+          <div class="product-shape shape-base"></div>
+          <div class="product-shape shape-accent"></div>
+          <div class="product-shape shape-line"></div>
+          <div class="product-shape shape-dot"></div>
+          <div class="label-tag">No. 01</div>
+        </div>
+      </div>
+      <div class="hero-badge">
+        <span class="badge-line"></span>
+        <span>Handcrafted in small batches</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-item">Free Shipping Over $100</span>
+      <span class="marquee-item">Lifetime Warranty</span>
+      <span class="marquee-item">Sustainably Sourced</span>
+      <span class="marquee-item">Handcrafted Quality</span>
+      <span class="marquee-item">30-Day Returns</span>
+      <span class="marquee-item">Free Shipping Over $100</span>
+      <span class="marquee-item">Lifetime Warranty</span>
+      <span class="marquee-item">Sustainably Sourced</span>
+      <span class="marquee-item">Handcrafted Quality</span>
+      <span class="marquee-item">30-Day Returns</span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-visual">
+      <div class="about-grid">
+        <div class="about-grid-cell"><span>01</span></div>
+        <div class="about-grid-cell"><span>02</span></div>
+        <div class="about-grid-cell"><span>03</span></div>
+        <div class="about-grid-cell"><span>04</span></div>
+      </div>
+    </div>
+    <div class="about-content reveal">
+      <p class="section-label">Our Philosophy</p>
+      <h2 class="section-title">Less, but<br><em>better.</em></h2>
+      <p class="section-body">We believe the objects around you should earn their place. Every FORMA product is the result of slow, deliberate design — no excess, no shortcuts. Just the essential, executed beautifully.</p>
+      <div class="stat-row">
+        <div class="stat">
+          <span class="stat-num">12+</span>
+          <span class="stat-label">Years of craft</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">40k</span>
+          <span class="stat-label">Happy customers</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Natural materials</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="products" id="products">
+    <div class="products-header reveal">
+      <div>
+        <p class="section-label">The Collection</p>
+        <h2 class="section-title">Select pieces</h2>
+      </div>
+      <a href="#" class="view-all">View All</a>
+    </div>
+    <div class="product-grid">
+      <div class="product-card reveal">
+        <div class="product-img-wrap">
+          <div class="product-placeholder"></div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">The Vessel</div>
+          <div class="product-sub">Ceramic · Natural White</div>
+          <div class="product-price">$148</div>
+        </div>
+        <span class="card-cta">Add to Cart</span>
+      </div>
+      <div class="product-card reveal" style="transition-delay:0.1s">
+        <div class="product-img-wrap" style="background:#ddd5c5;">
+          <div class="product-placeholder" style="background: linear-gradient(160deg,#c5b8a5,#a89888);"></div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">The Crest</div>
+          <div class="product-sub">Oak Wood · Walnut</div>
+          <div class="product-price">$220</div>
+        </div>
+        <span class="card-cta">Add to Cart</span>
+      </div>
+      <div class="product-card reveal" style="transition-delay:0.2s">
+        <div class="product-img-wrap" style="background:#e2dbd1;">
+          <div class="product-placeholder" style="background: linear-gradient(160deg,#d8cfc3,#c2b5a5);"></div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">The Slab</div>
+          <div class="product-sub">Marble · Carrara</div>
+          <div class="product-price">$310</div>
+        </div>
+        <span class="card-cta">Add to Cart</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="features-header reveal">
+      <p class="section-label">Why FORMA</p>
+      <h2 class="section-title" style="color:var(--cream)">The details<br><em style="color:var(--accent)">matter.</em></h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-item reveal">
+        <div class="feature-icon">✦</div>
+        <div class="feature-title">Natural Materials</div>
+        <p class="feature-text">Every piece uses ethically sourced natural materials chosen for longevity, beauty, and minimal environmental impact.</p>
+      </div>
+      <div class="feature-item reveal" style="transition-delay:0.1s">
+        <div class="feature-icon">◎</div>
+        <div class="feature-title">Small Batches</div>
+        <p class="feature-text">We produce in limited runs to maintain quality control and ensure each piece receives the attention it deserves.</p>
+      </div>
+      <div class="feature-item reveal" style="transition-delay:0.2s">
+        <div class="feature-icon">△</div>
+        <div class="feature-title">Lifetime Guarantee</div>
+        <p class="feature-text">If anything goes wrong, we make it right. No questions. We stand behind our craft unconditionally.</p>
+      </div>
+      <div class="feature-item reveal" style="transition-delay:0.3s">
+        <div class="feature-icon">□</div>
+        <div class="feature-title">Thoughtful Packaging</div>
+        <p class="feature-text">100% plastic-free packaging made from recycled and compostable materials. Beautiful on the outside, responsible within.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" id="testimonials">
+    <div class="testimonials-header reveal">
+      <p class="section-label">What People Say</p>
+      <h2 class="section-title">Made for <em>real</em> lives</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="quote-mark">"</div>
+        <p class="quote-text">I've had my Vessel for three years and it only gets more beautiful. There's a permanence to it that mass-produced things never have.</p>
+        <span class="quote-author">— Maya R., San Francisco</span>
+      </div>
+      <div class="testimonial-card reveal" style="transition-delay:0.1s">
+        <div class="quote-mark">"</div>
+        <p class="quote-text">The packaging alone was extraordinary. I knew before even opening it that I was holding something made with genuine care.</p>
+        <span class="quote-author">— James T., London</span>
+      </div>
+      <div class="testimonial-card reveal" style="transition-delay:0.2s">
+        <div class="quote-mark">"</div>
+        <p class="quote-text">FORMA changed how I think about objects in my home. I buy less and enjoy more. That's the gift of good design.</p>
+        <span class="quote-author">— Lena K., Berlin</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-banner">
+    <div class="reveal">
+      <p class="section-label">Join the Community</p>
+      <h2 class="section-title">Bring something <em>lasting</em> into your world.</h2>
+    </div>
+    <p class="reveal">Free shipping on all orders over $100. 30-day no-hassle returns. And a lifetime guarantee on everything we make.</p>
+    <a href="#products" class="btn-primary reveal">Shop the Collection</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="logo">FORMA</a>
+        <p class="footer-tagline">Objects that belong in your life. Crafted with intention, built to last.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Shop</p>
+        <ul class="footer-links">
+          <li><a href="#">New Arrivals</a></li>
+          <li><a href="#">Collection</a></li>
+          <li><a href="#">Gift Cards</a></li>
+          <li><a href="#">Sale</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Company</p>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Sustainability</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Support</p>
+        <ul class="footer-links">
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Shipping & Returns</a></li>
+          <li><a href="#">Warranty</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 FORMA. All rights reserved.</span>
+      <span>Privacy · Terms · Cookies</span>
+    </div>
+  </footer>
+
+  <script>
+    // Nav scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
